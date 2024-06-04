@@ -1,15 +1,21 @@
+import pathlib
+
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class AppSettings(BaseSettings):
-    NAME: str = "hackaton_template"
+    NAME: str = "training-assistant"
     VERSION: str = "0.1.0"
     ADDRESS: str = "0.0.0.0"  # noqa: S104
     PORT: int = 8080
     OPENAPI_PREFIX: str = ""
 
     model_config = SettingsConfigDict(env_prefix="APP_", env_file=".env", extra="ignore")
+
+
+class DirSettings(BaseSettings):
+    ROOT: pathlib.Path = pathlib.Path(__file__).resolve().parent.parent.parent
 
 
 class DatabaseSettings(BaseSettings):
@@ -64,6 +70,7 @@ class S3Settings(BaseSettings):
 
 class Settings(BaseSettings):
     APP: AppSettings = AppSettings()
+    DIRS: DirSettings = DirSettings()
     DATABASE: DatabaseSettings = DatabaseSettings()
     CORS: CORSSettings = CORSSettings()
     JWT: JWTSettings = JWTSettings()

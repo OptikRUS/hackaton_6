@@ -10,3 +10,7 @@ class TrainingCreation(BaseDTO):
     date_of_training: datetime.date
     start_time_of_training: datetime.time
     end_time_of_training: datetime.time
+
+
+class TrainingUpdating(TrainingCreation):
+    exercises_ids: list[int]

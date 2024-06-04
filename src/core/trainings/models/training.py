@@ -23,6 +23,12 @@ class Training(models.Model):
     )
     confirm_by_trainer = fields.BooleanField(default=False)
     past = fields.BooleanField(default=False)
+    exercises = fields.ManyToManyField(
+        "models.Exercise",
+        related_name="exercises",
+        through="trainings_exercises_m2m",
+        backward_key="training_id",
+    )
 
     @property
     def weekday_of_training(self) -> int:
