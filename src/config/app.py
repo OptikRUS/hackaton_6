@@ -17,7 +17,7 @@ async def init_app() -> FastAPI:
     )
     app.include_router(root_router)
     app.add_exception_handler(BaseHTTPException, common_exception_handler)
-    # await init_s3_bucket()
+    await init_s3_bucket()
     init_database(app)
     init_cors(app)
     return app

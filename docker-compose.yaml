@@ -19,23 +19,23 @@ services:
       - custom
 
   # minio service
-#  minio:
-#    images: minio/minio
-#    restart: always
-#    environment:
-#      MINIO_ROOT_USER: ${S3_ACCESS_KEY_ID}
-#      MINIO_ROOT_PASSWORD: ${S3_SECRET_ACCESS_KEY}
-#    volumes:
-#      - minio_data:/data
-#      - minio_config:/root/.minio
-#    env_file:
-#      - .env
-#    command: server --address 0.0.0.0:${S3_MINIO_PORT} --console-address :${S3_MINIO_PORT_2} /data
-#    ports:
-#      - ${S3_MINIO_HOST}:${S3_MINIO_PORT}:${S3_MINIO_PORT}
-#      - ${S3_MINIO_PORT_2}:${S3_MINIO_PORT_2}
-#    networks:
-#      - custom
+  minio:
+    image: minio/minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY_ID}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_ACCESS_KEY}
+    volumes:
+      - minio_data:/data
+      - minio_config:/root/.minio
+    env_file:
+      - .env
+    command: server --address 0.0.0.0:${S3_MINIO_PORT} --console-address :${S3_MINIO_PORT_2} /data
+    ports:
+      - ${S3_MINIO_HOST}:${S3_MINIO_PORT}:${S3_MINIO_PORT}
+      - ${S3_MINIO_PORT_2}:${S3_MINIO_PORT_2}
+    networks:
+      - custom
 
 volumes:
   minio_data:
