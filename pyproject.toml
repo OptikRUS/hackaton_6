@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "hackaton-template"
+version = "0.1.0"
+description = ""
+authors = ["OptikRUS <optikrus61@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.110.1"
+pydantic = {extras = ["email"], version = "^2.7.1"}
+tortoise-orm = {extras = ["asyncpg"], version = "^0.20.0"}
+pydantic-settings = "^2.2.1"
+uvicorn = {extras = ["standard"], version = "^0.29.0"}
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+bcrypt = "^4.1.2"
+aioboto3 = "^13.0.0"
+python-multipart = "^0.0.9"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.0"
+ruff = "^0.3.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+target-version = "py312"
+src = ["src"]
+exclude = ["vevn*"]
+lint.ignore = ["D", "ANN10", "RUF001", "RUF012", "FIX", "TD002", "TD003", "ANN201", "COM812", "B008", "ANN401"]
+lint.select = ["ALL"]
+lint.unfixable = ["E711", "E712"]
+line-length = 100

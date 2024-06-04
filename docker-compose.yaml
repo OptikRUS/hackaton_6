@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+
+  # database service
+  hack_template_database:
+    image: postgres:15.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - /var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    restart: always
+    networks:
+      - custom
+
+  # minio service
+#  minio:
+#    images: minio/minio
+#    restart: always
+#    environment:
+#      MINIO_ROOT_USER: ${S3_ACCESS_KEY_ID}
+#      MINIO_ROOT_PASSWORD: ${S3_SECRET_ACCESS_KEY}
+#    volumes:
+#      - minio_data:/data
+#      - minio_config:/root/.minio
+#    env_file:
+#      - .env
+#    command: server --address 0.0.0.0:${S3_MINIO_PORT} --console-address :${S3_MINIO_PORT_2} /data
+#    ports:
+#      - ${S3_MINIO_HOST}:${S3_MINIO_PORT}:${S3_MINIO_PORT}
+#      - ${S3_MINIO_PORT_2}:${S3_MINIO_PORT_2}
+#    networks:
+#      - custom
+
+volumes:
+  minio_data:
+  minio_config:
+
+networks:
+  custom:
+    driver: bridge
