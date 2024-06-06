@@ -15,6 +15,10 @@ class TrainingTypeListResponse(ApiModel):
     training_types: list[TrainingTypeResponse]
 
 
+class ExerciseMediaResponse(ApiModel):
+    file_path: str
+
+
 class ExerciseResponse(ApiModel):
     id: int
     name: str
@@ -23,6 +27,8 @@ class ExerciseResponse(ApiModel):
     exercise_type: str
     equipment: str
     difficulty: str
+
+    photos: list[ExerciseMediaResponse]
 
 
 class ExerciseListResponse(ApiModel):

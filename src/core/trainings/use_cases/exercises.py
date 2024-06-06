@@ -6,5 +6,5 @@ class GetExercisesUseCase:
         self.exercise_model = exercise_model
 
     async def __call__(self) -> dict:
-        exercises = await self.exercise_model.all()
+        exercises = await self.exercise_model.all().prefetch_related("photos")
         return {"exercises": exercises}
