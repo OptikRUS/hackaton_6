@@ -33,6 +33,7 @@ COPY --from=builder-base  $APP_PATH/.venv/ $APP_PATH/.venv/
 COPY --chown=root:root --chmod=u=rwX,g=rX,o=rX src src
 COPY Makefile .
 COPY pyproject.toml .
+COPY main.py .
 
 EXPOSE 8080
 
