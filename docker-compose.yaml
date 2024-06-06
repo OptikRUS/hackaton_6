@@ -9,6 +9,8 @@ services:
     depends_on:
       - database
       - minio
+    ports:
+      - ${APP_PORT}:${APP_PORT}
     networks:
       - custom
     env_file:
