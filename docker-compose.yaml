@@ -44,7 +44,7 @@ services:
       - .env
     command: server --address 0.0.0.0:${S3_MINIO_PORT} --console-address :${S3_MINIO_PORT_2} /data
     ports:
-      - ${S3_MINIO_HOST}:${S3_MINIO_PORT}:${S3_MINIO_PORT}
+      - 0.0.0.0:${S3_MINIO_PORT}:${S3_MINIO_PORT}
       - ${S3_MINIO_PORT_2}:${S3_MINIO_PORT_2}
     networks:
       - custom
