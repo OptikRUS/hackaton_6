@@ -1,42 +1,37 @@
-FROM python:3.12.0-alpine AS builder-base
-
-ENV POETRY_VIRTUALENVS_IN_PROJECT=true
-ENV POETRY_NO_INTERACTION=1
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1
-RUN apk --update add --no-cache gcc musl-dev libffi-dev
-RUN pip install poetry
-
-WORKDIR /project
-COPY pyproject.toml .
-
-RUN poetry install --no-ansi --no-root --no-cache
-
-FROM python:3.11.5-alpine AS final
-
-ENV APP_PATH=/project
-ENV PYTHONPATH=$APP_PATH/src
-ENV COVERAGE_FILE=/tmp/coverage
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTEST_ADDOPTS="-p no:cacheprovider"
-ENV PATH="$APP_PATH/.venv/bin:$PATH"
-
-RUN adduser --system --uid 101 python-user && \
-    apk update && apk add --no-cache make && \
-    rm -rf /var/cache/apk/*
+FROM python:3.12.0 AS python-base
 
 
-WORKDIR $APP_PATH
-COPY --from=builder-base  $APP_PATH/.venv/ $APP_PATH/.venv/
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
 
-# копирование файлов с установкой прав доступа
-COPY --chown=root:root --chmod=u=rwX,g=rX,o=rX src src
-COPY Makefile .
-COPY pyproject.toml .
-COPY main.py .
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
-EXPOSE 8080
+FROM python-base AS builder-base
+RUN apt-get update \
+ && apt-get install -y gcc git
 
-USER python-user
+WORKDIR $PYSETUP_PATH
+COPY ./pyproject.toml ./poetry.lock ./
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir setuptools wheel \
+ && pip install --no-cache-dir poetry
 
-ENTRYPOINT ["python", "main.py"]
+RUN poetry install --only main
+
+FROM python-base AS production
+COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+RUN apt-get update && apt-get install -y curl
+
+WORKDIR app/
+COPY ./src ./src
+COPY ./main.py ./
+
+ENTRYPOINT ["python", "-O", "main.py"]
