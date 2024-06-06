@@ -1,4 +1,4 @@
-FROM python:3.11.5-alpine AS builder-base
+FROM python:3.12.0-alpine AS builder-base
 
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true
 ENV POETRY_NO_INTERACTION=1
