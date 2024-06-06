@@ -11,7 +11,7 @@ from src.core.media.validators import validate_file_type
 
 class UploadMediaUseCase:
     def __init__(self, s3_client: BaseClient, media_model: Media) -> None:
-        self.file_model = media_model
+        self.media_model = media_model
         self.s3_client = s3_client
 
     async def upload_media(self, content: bytes, file_name: str, user_id: int, content_type: str) -> None:
@@ -28,4 +28,4 @@ class UploadMediaUseCase:
                 Key=file_path,
                 Body=content
             )
-        await self.file_model.create(user_id=user_id, file_path=file_path)
+        await self.media_model.create(user_id=user_id, file_path=file_path)

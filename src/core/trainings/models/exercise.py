@@ -24,6 +24,7 @@ class Exercise(models.Model):
 
 class ExercisePhoto(models.Model):
     id = fields.IntField(pk=True)
+    file_path = fields.CharField(max_length=255, null=False)
     exercise: fields.ForeignKeyRelation["Exercise"] = fields.ForeignKeyField(
         "models.Exercise", related_name="photos"
     )
