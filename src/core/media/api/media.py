@@ -1,5 +1,4 @@
-from io import BytesIO
-from typing import Annotated
+from typing import Annotated, AsyncGenerator
 
 from botocore.client import BaseClient
 from fastapi import APIRouter, status, UploadFile, File, Depends
@@ -59,5 +58,11 @@ async def get_media_by_path(
     s3_client: Annotated[BaseClient, Depends(get_s3_client)],
 ):
     use_case = GetMediaUseCase(s3_client=s3_client)
-    file_response = await use_case.get_media_by_path(file_path=file_path)
-    return StreamingResponse(BytesIO(file_response))
+    file_info: tuple[AsyncGenerator, str] = await use_case.get_media_by_path(
+        file_path=file_path
+    )
+    return StreamingResponse(
+        file_info[0],
+        media_type="application/octet-stream",
+        headers={"content-length": file_info[1]}
+    )
