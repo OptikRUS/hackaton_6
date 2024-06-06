@@ -1,5 +1,6 @@
 import asyncio
 import json
+
 import aiofiles
 
 from src.common.s3.s3_client import get_s3_client
@@ -23,16 +24,18 @@ async def fill_exercises() -> None:
             for photo_path in row["photos"]:
                 file_paths.append(photo_path)
                 exercise_photo_path = f"exercise/{photo_path}"
-                await ExercisePhoto.update_or_create(exercise_id=exercise[0].id, file_path=exercise_photo_path)
+                await ExercisePhoto.update_or_create(
+                    exercise_id=exercise[0].id, file_path=exercise_photo_path
+                )
 
     async def upload_file(file_path: str) -> None:
-        async with aiofiles.open(f"{settings.DIRS.ROOT}/dataset/{file_path}", 'rb') as file_data:
+        async with aiofiles.open(
+                f"{settings.DIRS.ROOT}/dataset/{file_path}", "rb"
+        ) as file_data:
             data = await file_data.read()
             async with get_s3_client() as s3:
                 await s3.put_object(
-                    Bucket=settings.S3.BUCKET_NAME,
-                    Key=f"exercise/{file_path}",
-                    Body=data
+                    Bucket=settings.S3.BUCKET_NAME, Key=f"exercise/{file_path}", Body=data
                 )
 
     for i in range(0, len(file_paths), 15):
