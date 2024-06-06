@@ -35,5 +35,6 @@ async def fill_exercises() -> None:
                     Body=data
                 )
 
-    tasks = [upload_file(file) for file in file_paths]
-    await asyncio.gather(*tasks)
+    for i in range(0, len(file_paths), 15):
+        tasks = [upload_file(file) for file in file_paths[i:i + 15]]
+        await asyncio.gather(*tasks)
