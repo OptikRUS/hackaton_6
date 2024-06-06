@@ -16,6 +16,7 @@ python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 bcrypt = "^4.1.2"
 aioboto3 = "^13.0.0"
 python-multipart = "^0.0.9"
+faker = "^25.5.0"
 
 
 [tool.poetry.group.dev.dependencies]
