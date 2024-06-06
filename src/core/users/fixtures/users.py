@@ -63,9 +63,15 @@ async def fill_clients(count: int) -> None:
     role = UserRoles.CLIENT.value
     persons = gen_persons(count=count)
     await create_users(persons=persons, role=role)
+    await User.create(
+        email="client@example.com", password=generate_password_hash("password123"), role=role
+    )
 
 
 async def fill_trainers(count: int) -> None:
     role = UserRoles.TRAINER.value
     persons = gen_persons(count=count)
     await create_users(persons=persons, role=role)
+    await User.create(
+        email="trainer@example.com", password=generate_password_hash("password123"), role=role
+    )
