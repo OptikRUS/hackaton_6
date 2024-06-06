@@ -38,4 +38,4 @@ EXPOSE 8080
 
 USER python-user
 
-CMD ["python", "main.py"]
+ENTRYPOINT ["python", "main.py"]

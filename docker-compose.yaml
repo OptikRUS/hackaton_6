@@ -1,9 +1,21 @@
 version: "3.8"
 
 services:
+  # api service
+  api:
+    build:
+      context: .
+    restart: always
+    depends_on:
+      - database
+      - minio
+    networks:
+      - custom
+    env_file:
+      - .env
 
   # database service
-  hack_template_database:
+  database:
     image: postgres:15.2
     environment:
       POSTGRES_USER: postgres
