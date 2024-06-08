@@ -2,7 +2,7 @@ from fastapi import APIRouter, Response, status
 
 from src.core.trainings.fixtures.exercise import fill_exercises
 from src.core.trainings.fixtures.training_types import fill_training_types
-from src.core.users.fixtures.clients import fill_clients, fill_trainers
+from src.core.users.fixtures.users import fill_clients, fill_trainers
 
 router = APIRouter(prefix="/import", tags=["import"])
 

@@ -27,6 +27,21 @@ class User(models.Model, TimeBasedMixin):
         null=True,
     )
     description = fields.TextField(null=True)
+    trainers = fields.ManyToManyField(
+        "models.User",
+        related_name="client_trainers",
+        through="trainers_clients_m2m",
+        backward_key="client_id",
+        forward_key="trainer_id",
+    )
+    clients = fields.ManyToManyField(
+        "models.User",
+        related_name="trainer_clients",
+        through="trainers_clients_m2m",
+        backward_key="trainer_id",
+        forward_key="client_id",
+    )
+
     media_files = fields.ReverseRelation["Media"]
 
     @property

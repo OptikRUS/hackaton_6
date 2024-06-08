@@ -1,7 +1,7 @@
-from typing import Annotated, AsyncGenerator
+from typing import TYPE_CHECKING, Annotated
 
 from botocore.client import BaseClient
-from fastapi import APIRouter, status, UploadFile, File, Depends
+from fastapi import APIRouter, Depends, File, UploadFile, status
 from starlette.responses import StreamingResponse
 
 from src.common.auth.authorization import CheckAuthorization
@@ -12,6 +12,9 @@ from src.core.media.schemas.media import MediaData
 from src.core.media.use_cases.get_media import GetMediaUseCase
 from src.core.media.use_cases.get_user_media import GetUserMediaUseCase
 from src.core.media.use_cases.upload_media import UploadMediaUseCase
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
 
 router = APIRouter(prefix="/media", tags=["media"])
 
