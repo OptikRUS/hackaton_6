@@ -20,9 +20,9 @@ services:
   database:
     image: postgres:15.2
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: hack_6
+      POSTGRES_PASSWORD: hack_6
+      POSTGRES_DB: hack_6
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - /var/lib/postgresql/data/pgdata

@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y curl
 
 WORKDIR app/
 COPY ./src ./src
+COPY ./dataset ./dataset
 COPY ./main.py ./
 
 ENTRYPOINT ["python", "-O", "main.py"]
