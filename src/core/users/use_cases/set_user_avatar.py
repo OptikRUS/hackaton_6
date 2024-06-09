@@ -37,4 +37,4 @@ class SetUserAvatarUseCase:
                 Body=content,
                 ContentType=content_type,
             )
-        await self.user_model.filter(user_id=user_id).update(avatar_path=file_path)
+        await self.user_model.filter(id=user_id).update(avatar_path=file_path)
