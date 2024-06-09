@@ -27,10 +27,11 @@ class User(models.Model, TimeBasedMixin):
         null=True,
     )
     avatar_id = fields.ForeignKeyField(
-        "models.Media",
-        related_name="avatar_owner",
+        'models.Media',
         null=True,
+        related_name='users'
     )
+
     description = fields.TextField(null=True)
     trainers = fields.ManyToManyField(
         "models.User",
@@ -51,8 +52,6 @@ class User(models.Model, TimeBasedMixin):
         through="trainings_trainers_m2m",
         backward_key="user_id",
     )
-
-    media_files = fields.ReverseRelation["Media"]
 
     @property
     def full_name(self) -> str:

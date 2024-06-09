@@ -38,4 +38,4 @@ class SetUserAvatarUseCase:
                 ContentType=content_type,
             )
         saved_media = await self.media_model.create(file_path=file_path)
-        await self.user_model.update_from_dict(dict(avatar_id=saved_media.id))
+        await self.user_model.filter(user_id=user_id).update(avatar_id=saved_media.id)
