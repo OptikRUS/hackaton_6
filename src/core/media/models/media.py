@@ -13,7 +13,7 @@ class Media(models.Model, TimeBasedMixin):
     file_path = fields.CharField(max_length=100)
 
     user: fields.ForeignKeyRelation["User"] = fields.ForeignKeyField(
-        "models.User", related_name="media_files", null=True
+        "models.User", related_name="media", null=True
     )
 
     class Meta:
