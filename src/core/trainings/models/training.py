@@ -6,6 +6,7 @@ from src.common.auth.constants import UserRoles
 
 if TYPE_CHECKING:
     from src.core.trainings.models.training_type import TrainingType
+    from src.core.users.models.user import User
 
 
 class Training(models.Model):
@@ -23,11 +24,13 @@ class Training(models.Model):
     )
     confirm_by_trainer = fields.BooleanField(default=False)
     past = fields.BooleanField(default=False)
-    exercises = fields.ManyToManyField(
-        "models.Exercise",
-        related_name="exercises",
-        through="trainings_exercises_m2m",
+    trainers = fields.ManyToManyField(
+        "models.User",
+        through="trainings_trainers_m2m",
         backward_key="training_id",
+    )
+    client: fields.ForeignKeyRelation["User"] = fields.ForeignKeyField(
+        "models.User", related_name="client", on_delete=fields.SET_NULL, null=True
     )
 
     @property

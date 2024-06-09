@@ -13,4 +13,4 @@ class TrainingCreation(BaseDTO):
 
 
 class TrainingUpdating(TrainingCreation):
-    exercises_ids: list[int]
+    ...
