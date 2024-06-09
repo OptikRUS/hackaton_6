@@ -26,6 +26,7 @@ class UploadMediaUseCase:
             await s3.put_object(
                 Bucket=settings.S3.BUCKET_NAME,
                 Key=file_path,
-                Body=content
+                Body=content,
+                ContentType=content_type,
             )
         await self.media_model.create(user_id=user_id, file_path=file_path)

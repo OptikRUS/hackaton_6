@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Annotated
+from typing import Annotated
 
 from botocore.client import BaseClient
 from fastapi import APIRouter, Depends, File, UploadFile, status
@@ -8,13 +8,11 @@ from src.common.auth.authorization import CheckAuthorization
 from src.common.auth.schemas import UserTokenPayload
 from src.common.s3.s3_client import get_s3_client
 from src.core.media.models import Media
-from src.core.media.schemas.media import MediaData
+from src.core.media.schemas.media import MediaData, StreamingMedia
 from src.core.media.use_cases.get_media import GetMediaUseCase
 from src.core.media.use_cases.get_user_media import GetUserMediaUseCase
 from src.core.media.use_cases.upload_media import UploadMediaUseCase
 
-if TYPE_CHECKING:
-    from collections.abc import AsyncGenerator
 
 router = APIRouter(prefix="/media", tags=["media"])
 
@@ -61,11 +59,11 @@ async def get_media_by_path(
     s3_client: Annotated[BaseClient, Depends(get_s3_client)],
 ):
     use_case = GetMediaUseCase(s3_client=s3_client)
-    file_info: tuple[AsyncGenerator, str] = await use_case.get_media_by_path(
+    file_info: StreamingMedia = await use_case.get_media_by_path(
         file_path=file_path
     )
     return StreamingResponse(
-        file_info[0],
-        media_type="application/octet-stream",
-        headers={"content-length": file_info[1]}
+        file_info.stream_reader,
+        media_type=file_info.content_type,
+        headers={"content-length": file_info.content_len}
     )
