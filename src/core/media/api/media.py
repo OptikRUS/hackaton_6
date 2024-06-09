@@ -8,9 +8,8 @@ from src.common.auth.authorization import CheckAuthorization
 from src.common.auth.schemas import UserTokenPayload
 from src.common.s3.s3_client import get_s3_client
 from src.core.media.models import Media
-from src.core.media.schemas.media import MediaData, StreamingMedia
+from src.core.media.schemas.media import StreamingMedia
 from src.core.media.use_cases.get_media import GetMediaUseCase
-from src.core.media.use_cases.get_user_media import GetUserMediaUseCase
 from src.core.media.use_cases.upload_media import UploadMediaUseCase
 
 
@@ -35,18 +34,6 @@ async def upload_file(
         user_id=user_data.id,
         content_type=file.content_type
     )
-
-
-@router.get(
-    "/user_media",
-    response_model=list[MediaData],
-    status_code=status.HTTP_200_OK
-)
-async def get_user_media(
-    user_data: Annotated[UserTokenPayload, Depends(CheckAuthorization())],
-):
-    use_case = GetUserMediaUseCase(media_model=Media())
-    return await use_case.get_user_media(user_id=user_data.id)
 
 
 @router.get(

@@ -1,6 +1,6 @@
 from src.core.media.adapters import list_media
 from src.core.media.models.media import Media
-from src.core.media.schemas.media import MediaData
+from src.core.users.schemas.media import MediaData
 
 
 class GetUserMediaUseCase:

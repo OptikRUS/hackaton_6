@@ -26,6 +26,11 @@ class User(models.Model, TimeBasedMixin):
         validators=[MinValueValidator(min_value=0.0), MaxValueValidator(max_value=5.0)],
         null=True,
     )
+    avatar_id = fields.ForeignKeyField(
+        "models.Media",
+        related_name="user",
+        null=True,
+    )
     description = fields.TextField(null=True)
     trainers = fields.ManyToManyField(
         "models.User",
