@@ -41,6 +41,11 @@ class User(models.Model, TimeBasedMixin):
         backward_key="trainer_id",
         forward_key="client_id",
     )
+    trainings = fields.ManyToManyField(
+        "models.Training",
+        through="trainings_trainers_m2m",
+        backward_key="user_id",
+    )
 
     media_files = fields.ReverseRelation["Media"]
 

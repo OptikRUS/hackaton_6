@@ -13,4 +13,18 @@ class TrainingCreationRequest(ApiModel):
 
 
 class TrainingUpdatingRequest(TrainingCreationRequest):
-    exercises_ids: list[int]
+    client_id: int
+
+
+class ExerciseCreationRequest(ApiModel):
+    title: str
+    training_id: int
+    exercise_id: int
+    distance: float | None = None
+    weight: float | None = None
+    height: float | None = None
+    duration: float | None = None
+    length: float | None = None
+    count: int | None = None
+    frequency: int | None = None
+    description: str = ""

@@ -11,9 +11,9 @@ class Exercise(models.Model):
     equipment = fields.CharField(max_length=255, null=True)
     # TODO: добавить Enum
     difficulty = fields.CharField(max_length=255, null=True)
-    trainings = fields.ManyToManyField(
-        "models.Training",
-        related_name="trainings",
+    training_exercises = fields.ManyToManyField(
+        "models.TrainingExercise",
+        related_name="training_exercises",
         through="trainings_exercises_m2m",
         backward_key="exercise_id",
     )

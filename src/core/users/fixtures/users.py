@@ -64,7 +64,19 @@ async def fill_clients(count: int) -> None:
     persons = gen_persons(count=count)
     await create_users(persons=persons, role=role)
     await User.create(
-        email="client@example.com", password=generate_password_hash("password123"), role=role
+        email="client@example.com",
+        password=generate_password_hash("password123"),
+        role=role,
+        phone="",
+        name="Клиент",
+        surname="Клинтов",
+        patronymic="Клиентович",
+        gender=GenderType.MALE.value,
+        age=20,
+        weight=90.0,
+        height=175.0,
+        rate=5.0,
+        description="Люблю спорт",
     )
 
 
@@ -73,5 +85,17 @@ async def fill_trainers(count: int) -> None:
     persons = gen_persons(count=count)
     await create_users(persons=persons, role=role)
     await User.create(
-        email="trainer@example.com", password=generate_password_hash("password123"), role=role
+        email="trainer@example.com",
+        password=generate_password_hash("password123"),
+        role=role,
+        phone="",
+        name="Тренер",
+        surname="Тренеров",
+        patronymic="Тренерович",
+        gender=GenderType.MALE.value,
+        age=30,
+        weight=95.0,
+        height=180.0,
+        rate=5.0,
+        description="Люблю тренировать людей",
     )
