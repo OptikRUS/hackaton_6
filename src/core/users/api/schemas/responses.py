@@ -19,6 +19,7 @@ class UserResponse(ApiModel):
     height: float | None
     rate: float | None
     description: str | None
+    avatar_path: str | None
 
 
 class TrainerResponse(ApiModel):
