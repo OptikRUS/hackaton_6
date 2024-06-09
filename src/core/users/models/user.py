@@ -28,7 +28,7 @@ class User(models.Model, TimeBasedMixin):
     )
     avatar_id = fields.ForeignKeyField(
         "models.Media",
-        related_name="user",
+        related_name="avatar_owner",
         null=True,
     )
     description = fields.TextField(null=True)
