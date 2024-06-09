@@ -1,6 +1,6 @@
 import os
 
-ALLOWED_MIME_TYPES = ["video/mp4", "images/jpeg", "images/png"]
+ALLOWED_MIME_TYPES = ["video/mp4", "images/jpeg", "images/png", "image/jpeg", "image/png"]
 ALLOWED_EXTENSIONS = [".mp4", ".jpg", ".jpeg", ".png"]
 
 
