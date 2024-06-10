@@ -1,21 +1,26 @@
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, status
+from botocore.client import BaseClient
+from fastapi import APIRouter, Depends, status, UploadFile, File
 
 from src.common.auth.authorization import CheckAuthorization
 from src.common.auth.constants import UserRoles
 from src.common.auth.jwt_service import JWTService
 from src.common.auth.schemas import TokenData, UserTokenPayload
+from src.common.s3.s3_client import get_s3_client
+from src.core.media.models import Media
 from src.core.users.api.schemas.requests import LoginDataRequest, RegistrationDataRequest
 from src.core.users.api.schemas.responses import (
     TrainerListResponse,
     UnBindTrainerRequest,
     UnBindTrainerResponse,
-    UserResponse,
+    UserResponse, UserMediaResponse,
 )
 from src.core.users.models import User
 from src.core.users.schemas.user import LoginData, RegistrationData
 from src.core.users.use_cases.bind_trainer import BindTrainerUseCase
+from src.core.users.use_cases.get_user_media import GetUserMediaUseCase
+from src.core.users.use_cases.set_user_avatar import SetUserAvatarUseCase
 from src.core.users.use_cases.unbind_trainer import UnbindTrainerUseCase
 from src.core.users.use_cases.user_authentication import UserAuthenticationUseCase
 from src.core.users.use_cases.user_by_id import UserByIdUseCase
@@ -83,3 +88,38 @@ async def unbind_trainer(
 ) -> Any:
     use_case = UnbindTrainerUseCase(user_model=User())
     return await use_case.unbind_trainer(client_id=user_data.id, trainer_id=payload.trainer_id)
+
+
+@router.get(
+    "/user_media",
+    response_model=UserMediaResponse,
+    status_code=status.HTTP_200_OK
+)
+async def get_user_media(
+    user_data: Annotated[UserTokenPayload, Depends(CheckAuthorization())],
+):
+    use_case = GetUserMediaUseCase(media_model=Media())
+    result = await use_case.get_user_media(user_id=user_data.id)
+    return UserMediaResponse(media_files=result)
+
+
+@router.put(
+    "/set_avatar",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def set_user_avatar(
+    s3_client: Annotated[BaseClient, Depends(get_s3_client)],
+    user_data: Annotated[UserTokenPayload, Depends(CheckAuthorization())],
+    file: UploadFile = File(...),
+):
+    use_case = SetUserAvatarUseCase(
+        user_model=User(), media_model=Media(), s3_client=s3_client
+    )
+    file_content = await file.read()
+    await use_case.set_user_avatar(
+        content=file_content,
+        file_name=file.filename,
+        user_id=user_data.id,
+        content_type=file.content_type
+    )

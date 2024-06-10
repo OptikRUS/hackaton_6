@@ -1,5 +1,5 @@
 from pydantic import TypeAdapter
 
-from src.core.media.schemas.media import MediaData
+from src.core.users.schemas.media import MediaData
 
 list_media = TypeAdapter(list[MediaData])

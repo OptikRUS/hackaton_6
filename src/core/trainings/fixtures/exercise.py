@@ -1,5 +1,6 @@
 import asyncio
 import json
+import mimetypes
 
 import aiofiles
 
@@ -33,9 +34,13 @@ async def fill_exercises() -> None:
                 f"{settings.DIRS.ROOT}/dataset/{file_path}", "rb"
         ) as file_data:
             data = await file_data.read()
+            mime_type, _ = mimetypes.guess_type(file_path)
             async with get_s3_client() as s3:
                 await s3.put_object(
-                    Bucket=settings.S3.BUCKET_NAME, Key=f"exercise/{file_path}", Body=data
+                    Bucket=settings.S3.BUCKET_NAME,
+                    Key=f"exercise/{file_path}",
+                    Body=data,
+                    ContentType=mime_type
                 )
 
     for i in range(0, len(file_paths), 15):

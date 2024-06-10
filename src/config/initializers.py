@@ -2,7 +2,7 @@ from botocore.exceptions import ClientError
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.common.s3.s3_client import get_s3_client
+from src.common.s3.s3_client import s3_context
 from src.config.database import DATABASE_SETTINGS
 from src.config.settings import settings
 
@@ -29,7 +29,7 @@ def init_cors(app: FastAPI) -> None:
 
 
 async def init_s3_bucket() -> None:
-    async with get_s3_client() as s3_client:
+    async with s3_context() as s3_client:
         try:
             await s3_client.create_bucket(Bucket=settings.S3.BUCKET_NAME)
             # logger.warning(f"Bucket {settings.S3.BUCKET_NAME} created.")

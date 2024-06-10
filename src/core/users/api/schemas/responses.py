@@ -19,6 +19,7 @@ class UserResponse(ApiModel):
     height: float | None
     rate: float | None
     description: str | None
+    avatar_path: str | None
 
 
 class TrainerResponse(ApiModel):
@@ -42,3 +43,13 @@ class UnBindTrainerRequest(ApiModel):
 class UnBindTrainerResponse(ApiModel):
     trainer_id: int
     client_id: int
+
+
+class MediaResponse(ApiModel):
+    id: int
+    user_id: int
+    file_path: str
+
+
+class UserMediaResponse(ApiModel):
+    media_files: list[MediaResponse]
