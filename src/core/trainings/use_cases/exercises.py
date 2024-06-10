@@ -6,9 +6,9 @@ class GetExercisesUseCase:
     def __init__(self, exercise_model: Exercise) -> None:
         self.exercise_model = exercise_model
 
-    async def __call__(self, pagination: PaginationInput) -> dict:
-        if search_name := pagination.search:
-            exercises_qs = self.exercise_model.filter(name__icontains=search_name)
+    async def __call__(self, search: str | None, pagination: PaginationInput) -> dict:
+        if search:
+            exercises_qs = self.exercise_model.filter(name__icontains=search)
         else:
             exercises_qs = self.exercise_model.all()
         exercises = (
