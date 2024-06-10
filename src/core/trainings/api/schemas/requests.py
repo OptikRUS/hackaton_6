@@ -1,5 +1,7 @@
 import datetime
 
+from pydantic import Field
+
 from src.api.schemas.base_schemas import ApiModel
 
 
@@ -36,3 +38,12 @@ class ExerciseUpdateRequest(ApiModel):
     additional_muscle: str | None
     exercise_type: str | None
     difficulty: str | None
+
+
+class ExerciseListRequest(ApiModel):
+    name: str | None = Field(None, alias="name__icontains")
+    muscle: str | None = Field(None, alias="muscle__icontains")
+    additional_muscle: str | None = Field(None, alias="additional_muscle__icontains")
+    exercise_type: str | None = Field(None, alias="exercise_type__icontains")
+    equipment: str | None = Field(None, alias="equipment__icontains")
+    difficulty: str | None = Field(None, alias="difficulty__icontains")

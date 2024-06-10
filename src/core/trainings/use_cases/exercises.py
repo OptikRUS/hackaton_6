@@ -1,4 +1,5 @@
 from src.api.schemas.pagination import PaginationInput
+from src.core.trainings.api.schemas.requests import ExerciseListRequest
 from src.core.trainings.exceptions import ExerciseNotFoundError
 from src.core.trainings.models import Exercise
 
@@ -7,12 +8,11 @@ class GetExercisesUseCase:
     def __init__(self, exercise_model: Exercise) -> None:
         self.exercise_model = exercise_model
 
-    async def __call__(self, search: str | None, pagination: PaginationInput) -> dict:
-        if search:
-            exercises_qs = self.exercise_model.filter(name__icontains=search)
-        else:
-            exercises_qs = self.exercise_model.all()
-        exercises = (
+    async def __call__(self, search: ExerciseListRequest, pagination: PaginationInput) -> dict:
+        exercises_qs = self.exercise_model.all()
+        if search_filters := search.model_dump(exclude_none=True, by_alias=True):
+            exercises_qs = self.exercise_model.filter(**search_filters)
+        exercises: list[Exercise] = (
             await exercises_qs.offset(pagination.offset)
             .limit(pagination.size)
             .prefetch_related("photos")

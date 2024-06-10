@@ -3,7 +3,7 @@ from src.api.schemas.base_schemas import ApiModel
 
 class PaginationInput(ApiModel):
     page: int | None = 1
-    size: int | None = 10
+    size: int | None = 100
 
     @property
     def offset(self) -> int:
