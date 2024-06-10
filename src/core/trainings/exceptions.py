@@ -25,3 +25,9 @@ class IncorrectTrainingTimeError(BaseExceptionSchema):
     message: str = "Некорректное время тренировки."
     reason: str = "incorrect_training_time_error"
     status: int = status.HTTP_400_BAD_REQUEST
+
+
+class ExerciseNotFoundError(BaseExceptionSchema):
+    message: str = "Тип упражнения не найден."
+    reason: str = "exercise_not_found"
+    status: int = status.HTTP_404_NOT_FOUND

@@ -19,6 +19,4 @@ class UserAuthenticationUseCase:
         if not verify_password_hash(password=login_data.password, hashed_password=user.password):
             raise IncorrectCredentials
 
-        return self._jwt_service.encode_token(
-            payload=UserTokenPayload(id=user.id, role=user.role)
-        )
+        return self._jwt_service.encode_token(payload=UserTokenPayload(id=user.id, role=user.role))

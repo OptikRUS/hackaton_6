@@ -28,3 +28,11 @@ class ExerciseCreationRequest(ApiModel):
     count: int | None = None
     frequency: int | None = None
     description: str = ""
+
+
+class ExerciseUpdateRequest(ApiModel):
+    name: str | None
+    muscle: str | None
+    additional_muscle: str | None
+    exercise_type: str | None
+    difficulty: str | None

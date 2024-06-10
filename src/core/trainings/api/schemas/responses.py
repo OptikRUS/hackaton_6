@@ -31,6 +31,16 @@ class ExerciseResponse(ApiModel):
     photos: list[ExerciseMediaResponse]
 
 
+class ExerciseUploadResponse(ApiModel):
+    id: int
+    name: str | None
+    muscle: str | None
+    additional_muscle: str | None
+    exercise_type: str | None
+    equipment: str | None
+    difficulty: str | None
+
+
 class ExerciseListResponse(ApiModel):
     exercises: list[ExerciseResponse]
 

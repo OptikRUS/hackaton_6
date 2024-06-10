@@ -69,4 +69,3 @@ async def update_training(
         trainer_id=user_data.id,
         payload=TrainingUpdating.model_validate(payload),
     )
-

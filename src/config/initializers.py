@@ -34,7 +34,7 @@ async def init_s3_bucket() -> None:
             await s3_client.create_bucket(Bucket=settings.S3.BUCKET_NAME)
             # logger.warning(f"Bucket {settings.S3.BUCKET_NAME} created.")
         except ClientError as e:
-            if e.response['Error']['Code'] == 'BucketAlreadyOwnedByYou':
+            if e.response["Error"]["Code"] == "BucketAlreadyOwnedByYou":
                 # logger.warning(f"Bucket {settings.S3.BUCKET_NAME} already exists.")
                 pass
             else:

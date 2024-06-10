@@ -12,15 +12,10 @@ from src.core.media.schemas.media import StreamingMedia
 from src.core.media.use_cases.get_media import GetMediaUseCase
 from src.core.media.use_cases.upload_media import UploadMediaUseCase
 
-
 router = APIRouter(prefix="/media", tags=["media"])
 
 
-@router.post(
-    "/upload",
-    response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
-)
+@router.post("/upload", response_model=None, status_code=status.HTTP_204_NO_CONTENT)
 async def upload_file(
     s3_client: Annotated[BaseClient, Depends(get_s3_client)],
     user_data: Annotated[UserTokenPayload, Depends(CheckAuthorization())],
@@ -32,25 +27,19 @@ async def upload_file(
         content=file_content,
         file_name=file.filename,
         user_id=user_data.id,
-        content_type=file.content_type
+        content_type=file.content_type,
     )
 
 
-@router.get(
-    "/{file_path:path}",
-    response_model=bytes,
-    status_code=status.HTTP_200_OK
-)
+@router.get("/{file_path:path}", response_model=bytes, status_code=status.HTTP_200_OK)
 async def get_media_by_path(
     file_path: str,
     s3_client: Annotated[BaseClient, Depends(get_s3_client)],
 ):
     use_case = GetMediaUseCase(s3_client=s3_client)
-    file_info: StreamingMedia = await use_case.get_media_by_path(
-        file_path=file_path
-    )
+    file_info: StreamingMedia = await use_case.get_media_by_path(file_path=file_path)
     return StreamingResponse(
         file_info.stream_reader,
         media_type=file_info.content_type,
-        headers={"content-length": file_info.content_len}
+        headers={"content-length": file_info.content_len},
     )
