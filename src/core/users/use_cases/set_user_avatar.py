@@ -28,7 +28,8 @@ class SetUserAvatarUseCase:
         file_path = generate_valid_file_path(
             content_type=content_type,
             file_name=file_name,
-            folder_name=user_id
+            folder_name=user_id,
+            new_file_name="avatar"
         )
         async with self.s3_client as s3:
             await s3.put_object(
