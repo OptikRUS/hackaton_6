@@ -30,10 +30,18 @@ class TrainerResponse(ApiModel):
     gender: str
     age: int
     rate: float
+    avatar_path: str | None
 
 
 class TrainerListResponse(ApiModel):
     result: list[TrainerResponse]
+
+
+class ClientResponse(TrainerResponse): ...
+
+
+class ClientListResponse(ApiModel):
+    result: list[ClientResponse]
 
 
 class UnBindTrainerRequest(ApiModel):

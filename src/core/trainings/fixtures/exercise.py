@@ -4,7 +4,7 @@ import mimetypes
 
 import aiofiles
 
-from src.common.s3.s3_client import get_s3_client
+from src.common.s3.s3_client import s3_context
 from src.config.settings import settings
 from src.core.trainings.models import Exercise, ExercisePhoto
 
@@ -33,7 +33,7 @@ async def fill_exercises() -> None:
         async with aiofiles.open(f"{settings.DIRS.ROOT}/dataset/{file_path}", "rb") as file_data:
             data = await file_data.read()
             mime_type, _ = mimetypes.guess_type(file_path)
-            async with get_s3_client() as s3:
+            async with s3_context() as s3:
                 await s3.put_object(
                     Bucket=settings.S3.BUCKET_NAME,
                     Key=f"exercise/{file_path}",

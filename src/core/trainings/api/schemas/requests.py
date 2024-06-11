@@ -21,7 +21,7 @@ class TrainingUpdatingRequest(TrainingCreationRequest):
 class ExerciseCreationRequest(ApiModel):
     title: str
     training_id: int
-    exercise_id: int
+    exercise_type_id: int = Field(alias="exercise_id")
     distance: float | None = None
     weight: float | None = None
     height: float | None = None

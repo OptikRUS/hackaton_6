@@ -9,14 +9,8 @@ from src.common.auth.jwt_service import JWTService
 from src.common.auth.schemas import TokenData, UserTokenPayload
 from src.common.s3.s3_client import get_s3_client
 from src.core.media.models import Media
+from src.core.users.api.schemas import responses
 from src.core.users.api.schemas.requests import LoginDataRequest, RegistrationDataRequest
-from src.core.users.api.schemas.responses import (
-    TrainerListResponse,
-    UnBindTrainerRequest,
-    UnBindTrainerResponse,
-    UserMediaResponse,
-    UserResponse,
-)
 from src.core.users.models import User
 from src.core.users.schemas.user import LoginData, RegistrationData
 from src.core.users.use_cases.bind_trainer import BindTrainerUseCase
@@ -37,7 +31,7 @@ async def auth_user(login_data: LoginDataRequest) -> typing.Any:
     return await use_case.auth_user(login_data=LoginData.model_validate(login_data))
 
 
-@router.post("/registration", response_model=UserResponse, status_code=status.HTTP_200_OK)
+@router.post("/registration", response_model=responses.UserResponse, status_code=status.HTTP_200_OK)
 async def registrate_user(registration_data: RegistrationDataRequest) -> typing.Any:
     use_case = UserCreationUseCase(user_model=User())
     return await use_case.register_user(
@@ -45,7 +39,7 @@ async def registrate_user(registration_data: RegistrationDataRequest) -> typing.
     )
 
 
-@router.get("/me", response_model=UserResponse, status_code=status.HTTP_200_OK)
+@router.get("/me", response_model=responses.UserResponse, status_code=status.HTTP_200_OK)
 async def get_me(
     user_data: typing.Annotated[UserTokenPayload, Depends(CheckAuthorization())]
 ) -> typing.Any:
@@ -53,14 +47,14 @@ async def get_me(
     return await use_case.get_user_by_id(user_id=user_data.id)
 
 
-@router.get("/trainers", response_model=TrainerListResponse, status_code=status.HTTP_200_OK)
+@router.get("/trainers", response_model=responses.TrainerListResponse, status_code=status.HTTP_200_OK)
 async def get_trainers() -> typing.Any:
     use_case = UserListUseCase(user_model=User())
     role = UserRoles.TRAINER.value
     return await use_case.get_users(role=role)
 
 
-@router.get("/clients", response_model=TrainerListResponse, status_code=status.HTTP_200_OK)
+@router.get("/clients", response_model=responses.ClientListResponse, status_code=status.HTTP_200_OK)
 async def get_clients() -> typing.Any:
     use_case = UserListUseCase(user_model=User())
     role = UserRoles.CLIENT.value
@@ -70,11 +64,11 @@ async def get_clients() -> typing.Any:
 @router.post(
     "/trainers/bind",
     status_code=status.HTTP_200_OK,
-    response_model=UnBindTrainerResponse,
+    response_model=responses.UnBindTrainerResponse,
 )
 async def bind_trainer(
     user_data: typing.Annotated[UserTokenPayload, Depends(CheckAuthorization())],
-    payload: UnBindTrainerRequest,
+    payload: responses.UnBindTrainerRequest,
 ) -> typing.Any:
     use_case = BindTrainerUseCase(user_model=User())
     return await use_case.bind_trainer(client_id=user_data.id, trainer_id=payload.trainer_id)
@@ -83,23 +77,23 @@ async def bind_trainer(
 @router.delete(
     "/trainers/unbind",
     status_code=status.HTTP_200_OK,
-    response_model=UnBindTrainerResponse,
+    response_model=responses.UnBindTrainerResponse,
 )
 async def unbind_trainer(
     user_data: typing.Annotated[UserTokenPayload, Depends(CheckAuthorization())],
-    payload: UnBindTrainerRequest,
+    payload: responses.UnBindTrainerRequest,
 ) -> typing.Any:
     use_case = UnbindTrainerUseCase(user_model=User())
     return await use_case.unbind_trainer(client_id=user_data.id, trainer_id=payload.trainer_id)
 
 
-@router.get("/user_media", response_model=UserMediaResponse, status_code=status.HTTP_200_OK)
+@router.get("/user_media", response_model=responses.UserMediaResponse, status_code=status.HTTP_200_OK)
 async def get_user_media(
     user_data: typing.Annotated[UserTokenPayload, Depends(CheckAuthorization())],
 ):
     use_case = GetUserMediaUseCase(media_model=Media())
     result = await use_case.get_user_media(user_id=user_data.id)
-    return UserMediaResponse(media_files=result)
+    return responses.UserMediaResponse(media_files=result)
 
 
 @router.put("/set_avatar", response_model=None, status_code=status.HTTP_204_NO_CONTENT)

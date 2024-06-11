@@ -7,4 +7,6 @@ class CreateExercisesUseCase:
         self.training_exercise_model = training_exercise_model
 
     async def __call__(self, payload: ExerciseCreationRequest) -> TrainingExercise:
-        return await self.training_exercise_model.create(**payload.model_dump(exclude_none=True))
+        return await self.training_exercise_model.create(
+            **payload.model_dump(exclude_none=True, by_alias=True)
+        )

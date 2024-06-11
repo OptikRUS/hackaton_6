@@ -27,7 +27,6 @@ class User(models.Model, TimeBasedMixin):
         null=True,
     )
     avatar_path = fields.CharField(max_length=355, null=True)
-
     description = fields.TextField(null=True)
     trainers = fields.ManyToManyField(
         "models.User",

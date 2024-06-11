@@ -17,8 +17,8 @@ class TrainingExercise(models.Model):
         null=True,
     )
 
-    count = fields.SmallIntField(validators=[MinValueValidator(min_value=18)], null=True)
-    frequency = fields.SmallIntField(validators=[MinValueValidator(min_value=18)], null=True)
+    count = fields.SmallIntField(validators=[MinValueValidator(min_value=0)], null=True)
+    frequency = fields.SmallIntField(validators=[MinValueValidator(min_value=0)], null=True)
     weight = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)
     height = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)
     duration = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)

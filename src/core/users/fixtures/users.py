@@ -56,6 +56,7 @@ async def create_users(persons: list, role: str) -> None:
             height=make_mock.pyfloat(min_value=160, max_value=180, right_digits=1),
             rate=make_mock.pyfloat(min_value=3, max_value=5, right_digits=1),
             description=make_mock.text(),
+            avatar_path=make_mock.image_url(),
         )
 
 
@@ -77,6 +78,7 @@ async def fill_clients(count: int) -> None:
         height=175.0,
         rate=5.0,
         description="Люблю спорт",
+        avatar_path=make_mock.image_url(),
     )
 
 
@@ -98,4 +100,5 @@ async def fill_trainers(count: int) -> None:
         height=180.0,
         rate=5.0,
         description="Люблю тренировать людей",
+        avatar_path=make_mock.image_url(),
     )
