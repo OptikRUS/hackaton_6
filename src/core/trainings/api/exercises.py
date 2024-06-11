@@ -24,6 +24,7 @@ async def get_exercises(
 @router.put(
     "/types/{exercise_id}",
     response_model=responses.ExerciseUploadResponse,
+    response_model_exclude_none=True,
     status_code=status.HTTP_200_OK,
 )
 async def update_exercises(
@@ -36,7 +37,12 @@ async def update_exercises(
     )
 
 
-@router.post("", response_model=responses.ExerciseCreationResponse, status_code=status.HTTP_200_OK)
+@router.post(
+    "",
+    response_model=responses.ExerciseCreationResponse,
+    response_model_exclude_none=True,
+    status_code=status.HTTP_200_OK,
+)
 async def create_exercise(payload: requests.ExerciseCreationRequest) -> Any:
     use_case = CreateExercisesUseCase(training_exercise_model=TrainingExercise())
     return await use_case(payload=payload)
