@@ -14,20 +14,20 @@ async def fill_exercises() -> None:
     with open(f"{settings.DIRS.ROOT}/dataset/main_images.json", encoding="utf-8") as file:
         file_data = json.load(file)
         for row in file_data:
-            # exercise = await Exercise.update_or_create(
-            #     name=row["name"],
-            #     muscle=row["muscle"],
-            #     additional_muscle=row["additionalMuscle"],
-            #     exercise_type=row["type"],
-            #     equipment=row["equipment"],
-            #     difficulty=row["difficulty"],
-            # )
+            exercise = await Exercise.update_or_create(
+                name=row["name"],
+                muscle=row["muscle"],
+                additional_muscle=row["additionalMuscle"],
+                exercise_type=row["type"],
+                equipment=row["equipment"],
+                difficulty=row["difficulty"],
+            )
             for photo_path in row["photos"]:
                 file_paths.append(photo_path)
-                # exercise_photo_path = f"exercise/{photo_path}"
-                # await ExercisePhoto.update_or_create(
-                #     exercise_id=exercise[0].id, file_path=exercise_photo_path
-                # )
+                exercise_photo_path = f"exercise/{photo_path}"
+                await ExercisePhoto.update_or_create(
+                    exercise_id=exercise[0].id, file_path=exercise_photo_path
+                )
 
     async def upload_file(file_path: str) -> None:
         async with aiofiles.open(f"{settings.DIRS.ROOT}/dataset/{file_path}", "rb") as file_data:
