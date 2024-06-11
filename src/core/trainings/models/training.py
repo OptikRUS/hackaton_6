@@ -20,9 +20,9 @@ class Training(models.Model):
     start_time_of_training = fields.TimeField(null=True)
     end_time_of_training = fields.TimeField(null=True)
     appointed_by = fields.data.CharEnumField(
-        enum_type=UserRoles, default=UserRoles.CLIENT, max_length=7, null=True
+        enum_type=UserRoles, default=UserRoles.TRAINER, max_length=7, null=True
     )
-    confirm_by_trainer = fields.BooleanField(default=False)
+    confirm_by_trainer = fields.BooleanField(default=True)
     past = fields.BooleanField(default=False)
     trainers = fields.ManyToManyField(
         "models.User",

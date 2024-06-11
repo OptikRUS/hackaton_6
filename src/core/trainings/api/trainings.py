@@ -1,13 +1,15 @@
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, status
 
 from src.common.auth.authorization import CheckAuthorization
 from src.common.auth.schemas import UserTokenPayload
 from src.core.trainings.api.schemas import requests as training_requests
 from src.core.trainings.api.schemas import responses as training_responses
+from src.core.trainings.api.schemas.responses import TrainingListResponse
 from src.core.trainings.models import Training, TrainingType
 from src.core.trainings.schemas.training import TrainingCreation, TrainingUpdating
+from src.core.trainings.use_cases.get_trainings import TrainingByRoleUseCase
 from src.core.trainings.use_cases.training_creation import TrainingCreationUseCase
 from src.core.trainings.use_cases.training_types import TrainingTypesUseCase
 from src.core.trainings.use_cases.training_updating import TrainingUpdateUseCase
@@ -16,8 +18,30 @@ from src.core.users.models import User
 router = APIRouter(prefix="/trainings", tags=["trainings"])
 
 
-@router.get("", status_code=status.HTTP_200_OK)
-async def get_trainings() -> Response: ...
+@router.get(
+    "/trainer",
+    response_model=TrainingListResponse,
+    response_model_exclude_none=True,
+    status_code=status.HTTP_200_OK,
+)
+async def get_trainer_trainings(
+    user_data: Annotated[UserTokenPayload, Depends(CheckAuthorization())]
+) -> Any:
+    use_case = TrainingByRoleUseCase(training_model=Training())
+    return await use_case.get_trainer_trainings(trainer_id=user_data.id)
+
+
+@router.get(
+    "/client",
+    response_model=TrainingListResponse,
+    response_model_exclude_none=True,
+    status_code=status.HTTP_200_OK,
+)
+async def get_client_trainings(
+    user_data: Annotated[UserTokenPayload, Depends(CheckAuthorization())]
+) -> Any:
+    use_case = TrainingByRoleUseCase(training_model=Training())
+    return await use_case.get_client_trainings(client_id=user_data.id)
 
 
 @router.get(
@@ -69,4 +93,3 @@ async def update_training(
         trainer_id=user_data.id,
         payload=TrainingUpdating.model_validate(payload),
     )
-

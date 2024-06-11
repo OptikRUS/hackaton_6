@@ -12,5 +12,4 @@ class TrainingCreation(BaseDTO):
     end_time_of_training: datetime.time
 
 
-class TrainingUpdating(TrainingCreation):
-    ...
+class TrainingUpdating(TrainingCreation): ...
