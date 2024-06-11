@@ -18,10 +18,10 @@ class TrainingUpdatingRequest(TrainingCreationRequest):
     client_id: int
 
 
-class ExerciseCreationRequest(ApiModel):
+class TrainingExerciseCreationRequest(ApiModel):
     title: str
     training_id: int
-    exercise_type_id: int = Field(alias="exercise_id")
+    exercise_id: int | None = Field(alias="exercise_type_id")
     distance: float | None = None
     weight: float | None = None
     height: float | None = None
@@ -32,7 +32,21 @@ class ExerciseCreationRequest(ApiModel):
     description: str = ""
 
 
-class ExerciseUpdateRequest(ApiModel):
+class TrainingExerciseUpdateRequest(ApiModel):
+    title: str | None = None
+    training_id: int | None = None
+    exercise_id: int | None = Field(None, alias="exercise_type_id")
+    distance: float | None = None
+    weight: float | None = None
+    height: float | None = None
+    duration: float | None = None
+    length: float | None = None
+    count: int | None = None
+    frequency: int | None = None
+    description: str = ""
+
+
+class ExerciseTypeUpdateRequest(ApiModel):
     name: str | None
     muscle: str | None
     additional_muscle: str | None
@@ -40,7 +54,7 @@ class ExerciseUpdateRequest(ApiModel):
     difficulty: str | None
 
 
-class ExerciseListRequest(ApiModel):
+class ExerciseTypeListRequest(ApiModel):
     name: str | None = Field(None, alias="name__icontains")
     muscle: str | None = Field(None, alias="muscle__icontains")
     additional_muscle: str | None = Field(None, alias="additional_muscle__icontains")

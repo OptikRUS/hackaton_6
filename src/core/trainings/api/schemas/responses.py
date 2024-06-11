@@ -23,7 +23,7 @@ class ExerciseMediaResponse(ApiModel):
     file_path: str
 
 
-class ExerciseResponse(ApiModel):
+class ExerciseTypeResponse(ApiModel):
     id: int
     name: str
     muscle: str
@@ -32,10 +32,10 @@ class ExerciseResponse(ApiModel):
     equipment: str
     difficulty: str
 
-    photos: list[ExerciseMediaResponse]
+    photos: list[ExerciseMediaResponse] | None
 
 
-class ExerciseUploadResponse(ApiModel):
+class ExerciseTypeUploadResponse(ApiModel):
     id: int
     name: str | None
     muscle: str | None
@@ -45,32 +45,18 @@ class ExerciseUploadResponse(ApiModel):
     difficulty: str | None
 
 
-class ExerciseListResponse(ApiModel):
-    exercises: list[ExerciseResponse]
+class ExerciseTypeListResponse(ApiModel):
+    exercises: list[ExerciseTypeResponse]
 
 
 class TrainingUpdatingResponse(TrainingCreationResponse):
     id: int
 
 
-class ExerciseCreationResponse(ApiModel):
-    title: str
-    training_id: int
-    exercise_id: int = Field(alias="exercise_type_id")
-    distance: float | None = None
-    weight: float | None = None
-    height: float | None = None
-    duration: float | None = None
-    length: float | None = None
-    count: int | None = None
-    frequency: int | None = None
-    description: str
-
-
 class TrainingExerciseResponse(ApiModel):
     id: int
     title: str
-    exercise: ExerciseResponse = Field(alias="exercise_type")
+    exercise: ExerciseTypeResponse = Field(alias="exercise_type")
     distance: float | None = None
     weight: float | None = None
     height: float | None = None

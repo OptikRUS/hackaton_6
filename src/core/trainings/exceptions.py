@@ -27,7 +27,13 @@ class IncorrectTrainingTimeError(BaseExceptionSchema):
     status: int = status.HTTP_400_BAD_REQUEST
 
 
-class ExerciseNotFoundError(BaseExceptionSchema):
+class ExerciseTypeNotFoundError(BaseExceptionSchema):
     message: str = "Тип упражнения не найден."
+    reason: str = "exercise_type_not_found"
+    status: int = status.HTTP_404_NOT_FOUND
+
+
+class TrainingExerciseNotFoundError(BaseExceptionSchema):
+    message: str = "Упражнение не найдено."
     reason: str = "exercise_not_found"
     status: int = status.HTTP_404_NOT_FOUND
