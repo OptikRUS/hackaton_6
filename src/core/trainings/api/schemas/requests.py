@@ -3,6 +3,7 @@ import datetime
 from pydantic import Field
 
 from src.api.schemas.base_schemas import ApiModel
+from src.core.trainings.constants import IntensityType
 
 
 class TrainingCreationRequest(ApiModel):
@@ -23,12 +24,12 @@ class TrainingExerciseCreationRequest(ApiModel):
     training_id: int
     exercise_id: int | None = Field(alias="exercise_type_id")
     distance: float | None = None
-    weight: float | None = None
-    height: float | None = None
+    weight_used: float | None = None
+    rest_period: float | None = None
+    intensity: IntensityType | None = None
     duration: float | None = None
-    length: float | None = None
-    count: int | None = None
-    frequency: int | None = None
+    set_count: int | None = None
+    rep_count: int | None = None
     description: str = ""
 
 
@@ -37,12 +38,12 @@ class TrainingExerciseUpdateRequest(ApiModel):
     training_id: int | None = None
     exercise_id: int | None = Field(None, alias="exercise_type_id")
     distance: float | None = None
-    weight: float | None = None
-    height: float | None = None
+    weight_used: float | None = None
+    rest_period: float | None = None
+    intensity: IntensityType | None = None
     duration: float | None = None
-    length: float | None = None
-    count: int | None = None
-    frequency: int | None = None
+    set_count: int | None = None
+    rep_count: int | None = None
     description: str = ""
 
 

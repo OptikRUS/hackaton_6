@@ -11,7 +11,13 @@ class Exercise(models.Model):
     equipment = fields.CharField(max_length=255, null=True)
     # TODO: добавить Enum
     difficulty = fields.CharField(max_length=255, null=True)
-
+    set_count = fields.BooleanField(null=True)
+    rep_count = fields.BooleanField(null=True)
+    weight_used = fields.BooleanField(null=True)
+    distance = fields.BooleanField(null=True)
+    rest_period = fields.BooleanField(null=True)
+    duration = fields.BooleanField(null=True)
+    intensity = fields.BooleanField(null=True)
     # # TODO: не помню зачем поле ниже
     # training_exercises = fields.ManyToManyField(
     #     "models.TrainingExercise",

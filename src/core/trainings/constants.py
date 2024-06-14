@@ -8,3 +8,9 @@ class TrainingType(str, Enum):
     DANCE = "dance"
     YOGA = "yoga"
     PILATES = "pilates"
+
+
+class IntensityType(str, Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"

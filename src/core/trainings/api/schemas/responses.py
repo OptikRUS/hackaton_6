@@ -4,6 +4,7 @@ from pydantic import Field
 
 from src.api.schemas.base_schemas import ApiModel
 from src.core.trainings.api.schemas.requests import TrainingCreationRequest
+from src.core.trainings.constants import IntensityType
 
 
 class TrainingCreationResponse(TrainingCreationRequest): ...
@@ -58,12 +59,12 @@ class TrainingExerciseResponse(ApiModel):
     title: str
     exercise: ExerciseTypeResponse = Field(alias="exercise_type")
     distance: float | None = None
-    weight: float | None = None
-    height: float | None = None
+    weight_used: float | None = None
+    rest_period: float | None = None
+    intensity: IntensityType | None = None
     duration: float | None = None
-    length: float | None = None
-    count: int | None = None
-    frequency: int | None = None
+    set_count: int | None = None
+    rep_count: int | None = None
     description: str
 
 

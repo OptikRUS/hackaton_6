@@ -21,6 +21,7 @@ async def fill_exercises() -> None:
                 exercise_type=row["type"],
                 equipment=row["equipment"],
                 difficulty=row["difficulty"],
+                **{param: True for param in row["params"]}
             )
             for photo_path in row["photos"]:
                 file_paths.append(photo_path)
