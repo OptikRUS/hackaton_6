@@ -27,7 +27,7 @@ async def notify_messages(websocket: WebSocket, sender_id: int) -> Any:
 
 
 @router.get(
-    "/history/",
+    "/history",
     response_model=responses.ChatHistoryResponse,
     status_code=status.HTTP_200_OK,
 )
