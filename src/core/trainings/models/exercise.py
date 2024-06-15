@@ -1,4 +1,5 @@
 from tortoise import fields, models
+from tortoise.validators import MinValueValidator
 
 
 class Exercise(models.Model):
@@ -12,14 +13,17 @@ class Exercise(models.Model):
     # TODO: добавить Enum
     difficulty = fields.CharField(max_length=255, null=True)
 
-    # # TODO: не помню зачем поле ниже
-    # training_exercises = fields.ManyToManyField(
-    #     "models.TrainingExercise",
-    #     related_name="training_exercises",
-    #     through="trainings_exercises_m2m",
-    #     backward_key="exercise_id",
-    #     forward_key="training_exercise_id",
-    # )
+    distance = fields.FloatField(
+        default=None,
+        validators=[MinValueValidator(min_value=0.0)],
+        null=True,
+    )
+    count = fields.SmallIntField(validators=[MinValueValidator(min_value=0)], null=True)
+    frequency = fields.SmallIntField(validators=[MinValueValidator(min_value=0)], null=True)
+    weight = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)
+    height = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)
+    duration = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)
+    length = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)
 
     class Meta:
         table = "trainings_exercise"

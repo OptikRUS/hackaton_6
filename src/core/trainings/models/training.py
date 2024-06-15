@@ -24,13 +24,18 @@ class Training(models.Model):
     )
     confirm_by_trainer = fields.BooleanField(default=True)
     past = fields.BooleanField(default=False)
-    trainers = fields.ManyToManyField(
-        "models.User",
-        through="trainings_trainers_m2m",
-        backward_key="training_id",
+    trainer: fields.ForeignKeyRelation["User"] = fields.ForeignKeyField(
+        "models.User", related_name="trainer", on_delete=fields.SET_NULL, null=True
     )
     client: fields.ForeignKeyRelation["User"] = fields.ForeignKeyField(
         "models.User", related_name="client", on_delete=fields.SET_NULL, null=True
+    )
+    training_exercises = fields.ManyToManyField(
+        "models.TrainingExercise",
+        related_name="training_exercises",
+        through="training_exercises_m2m",
+        backward_key="training_id",
+        forward_key="training_exercise_id",
     )
 
     @property

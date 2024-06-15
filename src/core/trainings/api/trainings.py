@@ -7,10 +7,11 @@ from src.common.auth.schemas import UserTokenPayload
 from src.core.trainings.api.schemas import requests as training_requests
 from src.core.trainings.api.schemas import responses as training_responses
 from src.core.trainings.api.schemas.responses import TrainingListResponse
-from src.core.trainings.models import Training, TrainingType
+from src.core.trainings.models import Training, TrainingType, TrainingTemplate
 from src.core.trainings.schemas.training import TrainingCreation, TrainingUpdating
 from src.core.trainings.use_cases.get_trainings import TrainingByRoleUseCase
 from src.core.trainings.use_cases.training_creation import TrainingCreationUseCase
+from src.core.trainings.use_cases.training_templates import TrainingTemplatesUseCase
 from src.core.trainings.use_cases.training_types import TrainingTypesUseCase
 from src.core.trainings.use_cases.training_updating import TrainingUpdateUseCase
 from src.core.users.models import User
@@ -52,6 +53,17 @@ async def get_client_trainings(
 async def get_training_types() -> Any:
     use_case = TrainingTypesUseCase(training_type_model=TrainingType())
     return await use_case.get_all_training_types()
+
+
+@router.get(
+    "/templates",
+    response_model=training_responses.TrainingTemplateListResponse,
+    response_model_exclude_none=True,
+    status_code=status.HTTP_200_OK,
+)
+async def get_training_templates() -> Any:
+    use_case = TrainingTemplatesUseCase(training_template_model=TrainingTemplate())
+    return await use_case.get_training_templates()
 
 
 @router.post(

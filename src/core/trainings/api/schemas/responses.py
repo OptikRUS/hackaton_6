@@ -31,6 +31,13 @@ class ExerciseTypeResponse(ApiModel):
     exercise_type: str
     equipment: str
     difficulty: str
+    distance: float | None
+    count: int | None
+    frequency: int | None
+    weight: float | None
+    height: float | None
+    duration: float | None
+    length: float | None
 
     photos: list[ExerciseMediaResponse] | None
 
@@ -43,6 +50,13 @@ class ExerciseTypeUploadResponse(ApiModel):
     exercise_type: str | None
     equipment: str | None
     difficulty: str | None
+    distance: float | None
+    count: int | None
+    frequency: int | None
+    weight: float | None
+    height: float | None
+    duration: float | None
+    length: float | None
 
 
 class ExerciseTypeListResponse(ApiModel):
@@ -55,16 +69,19 @@ class TrainingUpdatingResponse(TrainingCreationResponse):
 
 class TrainingExerciseResponse(ApiModel):
     id: int
-    title: str
-    exercise: ExerciseTypeResponse = Field(alias="exercise_type")
-    distance: float | None = None
-    weight: float | None = None
-    height: float | None = None
-    duration: float | None = None
-    length: float | None = None
-    count: int | None = None
-    frequency: int | None = None
-    description: str
+    name: str | None
+    muscle: str | None
+    additional_muscle: str | None
+    exercise_type: str | None
+    equipment: str | None
+    difficulty: str | None
+    distance: float | None
+    count: int | None
+    frequency: int | None
+    weight: float | None
+    height: float | None
+    duration: float | None
+    length: float | None
 
 
 class TrainingResponse(ApiModel):
@@ -82,3 +99,13 @@ class TrainingResponse(ApiModel):
 
 class TrainingListResponse(ApiModel):
     trainings: list[TrainingResponse]
+
+
+class TrainingTemplateResponse(ApiModel):
+    title: str | None = ""
+    description: str | None = ""
+    exercises: list[TrainingExerciseResponse]
+
+
+class TrainingTemplateListResponse(ApiModel):
+    templates: list[TrainingTemplateResponse]

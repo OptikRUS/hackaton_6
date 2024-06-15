@@ -25,9 +25,9 @@ class TrainingCreationUseCase:
             start_time_of_training=payload.start_time_of_training,
             end_time_of_training=payload.end_time_of_training,
         )
-        new_training = await self._create_training(data=payload.model_dump())
-        trainer = await self.user_model.get(id=trainer_id)
-        await new_training.trainers.add(trainer)
+        training_data = payload.model_dump()
+        training_data["trainer_id"] = trainer_id
+        new_training = await self._create_training(data=training_data)
         return new_training
 
     async def _create_training(self, data: dict) -> Training:

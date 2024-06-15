@@ -12,15 +12,18 @@ from src.core.trainings.use_cases.exercise_types import (
 )
 from src.core.trainings.use_cases.training_exercise import (
     CreateTrainingExerciseUseCase,
-    UpdateTrainingExerciseUseCase,
     GetTrainingExerciseUseCase,
+    UpdateTrainingExerciseUseCase,
 )
 
 router = APIRouter(prefix="/exercises", tags=["exercises"])
 
 
 @router.get(
-    "/types", response_model=responses.ExerciseTypeListResponse, status_code=status.HTTP_200_OK
+    "/types",
+    response_model=responses.ExerciseTypeListResponse,
+    response_model_exclude_none=True,
+    status_code=status.HTTP_200_OK,
 )
 async def get_exercise_types(
     pagination: Annotated[PaginationInput, Depends()],
