@@ -17,7 +17,7 @@ class TrainingUpdateUseCase:
     async def update_training(
         self, training_id: int, client_id: int, trainer_id: int, payload: TrainingUpdating
     ) -> Training:
-        training = await self.training_model.get_or_none(id=training_id, trainers__id=trainer_id)
+        training = await self.training_model.get_or_none(id=training_id, trainer_id=trainer_id)
         if not training:
             raise TrainingNotFoundError
         await self._check_valid_training(
