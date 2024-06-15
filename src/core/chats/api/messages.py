@@ -34,20 +34,9 @@ async def notify_messages(websocket: WebSocket, sender_id: int) -> Any:
 async def get_exercise_types(
     pagination: Annotated[PaginationInput, Depends()],
     search: Annotated[ChatHistoryRequest, Depends()],
-) -> Any:
-    use_case = ChatHistoryUseCase(messages_model=Message())
-    return await use_case.get_chat_history(search_filters=search, pagination=pagination)
-
-
-@router.get(
-    "/user/",
-    response_model=responses.ChatHistoryResponse,
-    status_code=status.HTTP_200_OK,
-)
-async def get_exercise_types(
-    pagination: Annotated[PaginationInput, Depends()],
-    search: Annotated[ChatHistoryRequest, Depends()],
     user_data: Annotated[UserTokenPayload, Depends(CheckAuthorization())]
 ) -> Any:
     use_case = ChatHistoryUseCase(messages_model=Message())
-    return await use_case.get_chat_history(search_filters=search, pagination=pagination)
+    return await use_case.get_chat_history(
+        user_id=user_data.id, search_filters=search, pagination=pagination
+    )

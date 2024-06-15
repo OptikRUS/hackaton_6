@@ -11,19 +11,24 @@ class ChatHistoryUseCase:
 
     async def get_chat_history(
         self,
+        user_id: int,
         search_filters: ChatHistoryRequest,
         pagination: PaginationInput
     ) -> dict:
         chat_history_qs = self.messages_model.all()
         if search_filters:
             filters = list()
-            filters.append(Q(**search_filters.model_dump()))
-            search_filters.sender_id, search_filters.receiver_id = (
-                search_filters.receiver_id, search_filters.sender_id
+            filters.append(Q(
+                sender_id=user_id,
+                receiver_id=search_filters.receiver_id
+            ))
+            filters.append(Q(
+                receiver_id=user_id,
+                sender_id=search_filters.receiver_id
+            ))
+            chat_history_qs = self.messages_model.filter(
+                Q(*filters, join_type="OR")
             )
-            filters.append(Q(**search_filters.model_dump()))
-
-            chat_history_qs = self.messages_model.filter(Q(*filters, join_type="OR"))
 
         messages: list[Message] = (
             await chat_history_qs
