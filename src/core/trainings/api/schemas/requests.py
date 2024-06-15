@@ -19,7 +19,11 @@ class TrainingUpdatingRequest(TrainingCreationRequest):
 
 
 class TrainingExerciseCreationRequest(ApiModel):
-    title: str
+    name: str
+    muscle: str
+    additional_muscle: str
+    equipment: str
+    difficulty: str
     training_id: int
     exercise_id: int | None = Field(alias="exercise_type_id")
     distance: float | None = None

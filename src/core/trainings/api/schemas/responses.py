@@ -1,5 +1,7 @@
 import datetime
 
+from pydantic import Field
+
 from src.api.schemas.base_schemas import ApiModel
 from src.core.trainings.api.schemas.requests import TrainingCreationRequest
 
@@ -81,6 +83,7 @@ class TrainingExerciseResponse(ApiModel):
     height: float | None
     duration: float | None
     length: float | None
+    training_exercise_photos: list[ExerciseMediaResponse] | None = Field(alias="photos")
 
 
 class TrainingResponse(ApiModel):

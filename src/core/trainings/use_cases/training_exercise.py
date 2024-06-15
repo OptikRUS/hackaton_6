@@ -2,18 +2,28 @@ from src.core.trainings.api.schemas.requests import (
     TrainingExerciseCreationRequest,
 )
 from src.core.trainings.exceptions import TrainingExerciseNotFoundError
-from src.core.trainings.models import TrainingExercise
+from src.core.trainings.models import ExercisePhoto, TrainingExercise
 
 
 class CreateTrainingExerciseUseCase:
-    def __init__(self, training_exercise_model: TrainingExercise) -> None:
+    def __init__(
+        self, training_exercise_model: TrainingExercise, exercise_photo_model: ExercisePhoto
+    ) -> None:
         self.training_exercise_model = training_exercise_model
+        self.exercise_photo_model = exercise_photo_model
 
     async def __call__(self, payload: TrainingExerciseCreationRequest) -> TrainingExercise:
-        training_exercise = await self.training_exercise_model.create(
-            **payload.model_dump(exclude_none=True)
+        training_exercise_data = payload.model_dump(exclude_none=True)
+        training_exercise = await self.training_exercise_model.create(**training_exercise_data)
+        exercise_photos = await self.exercise_photo_model.filter(
+            exercise_id=training_exercise_data.pop("exercise_id")
         )
-        await training_exercise.fetch_related("exercise__photos")
+        print()
+        for exercise_photo in exercise_photos:
+            await exercise_photo.update_from_dict({"training_exercise_id": training_exercise.id})
+            await exercise_photo.save()
+        print()
+        await training_exercise.fetch_related("training_exercise_photos")
         return training_exercise
 
 

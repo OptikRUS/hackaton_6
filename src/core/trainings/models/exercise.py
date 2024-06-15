@@ -1,5 +1,10 @@
+from typing import TYPE_CHECKING
+
 from tortoise import fields, models
 from tortoise.validators import MinValueValidator
+
+if TYPE_CHECKING:
+    from src.core.trainings.models import TrainingExercise
 
 
 class Exercise(models.Model):
@@ -34,6 +39,9 @@ class ExercisePhoto(models.Model):
     file_path = fields.CharField(max_length=255, null=False)
     exercise: fields.ForeignKeyRelation["Exercise"] = fields.ForeignKeyField(
         "models.Exercise", related_name="photos"
+    )
+    training_exercise: fields.ForeignKeyRelation["TrainingExercise"] = fields.ForeignKeyField(
+        "models.TrainingExercise", related_name="training_exercise_photos", null=True
     )
 
     class Meta:

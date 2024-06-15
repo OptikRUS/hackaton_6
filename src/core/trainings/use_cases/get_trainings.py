@@ -6,8 +6,8 @@ class TrainingByRoleUseCase:
         self.training_model = training_model
 
     async def get_trainer_trainings(self, trainer_id: int) -> dict:
-        trainings = await self.training_model.filter(trainers__id=trainer_id).prefetch_related(
-            "exercises__exercise__photos", "training_type"
+        trainings = await self.training_model.filter(trainer_id=trainer_id).prefetch_related(
+            "training_type", "exercises__training_exercise_photos"
         )
         return {"trainings": trainings}
 

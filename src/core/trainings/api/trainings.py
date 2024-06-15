@@ -7,7 +7,7 @@ from src.common.auth.schemas import UserTokenPayload
 from src.core.trainings.api.schemas import requests as training_requests
 from src.core.trainings.api.schemas import responses as training_responses
 from src.core.trainings.api.schemas.responses import TrainingListResponse
-from src.core.trainings.models import Training, TrainingType, TrainingTemplate
+from src.core.trainings.models import Training, TrainingTemplate, TrainingType
 from src.core.trainings.schemas.training import TrainingCreation, TrainingUpdating
 from src.core.trainings.use_cases.get_trainings import TrainingByRoleUseCase
 from src.core.trainings.use_cases.training_creation import TrainingCreationUseCase
