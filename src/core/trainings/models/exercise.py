@@ -3,6 +3,8 @@ from typing import TYPE_CHECKING
 from tortoise import fields, models
 from tortoise.validators import MinValueValidator
 
+from src.config.settings import settings
+
 if TYPE_CHECKING:
     from src.core.trainings.models import TrainingExercise
 
@@ -43,6 +45,10 @@ class ExercisePhoto(models.Model):
     training_exercise: fields.ForeignKeyRelation["TrainingExercise"] = fields.ForeignKeyField(
         "models.TrainingExercise", related_name="training_exercise_photos", null=True
     )
+
+    @property
+    def url(self) -> str:
+        return f"{settings.APP.SERVER_URL}/media/{self.file_path}"
 
     class Meta:
         table = "trainings_exercise_photo"

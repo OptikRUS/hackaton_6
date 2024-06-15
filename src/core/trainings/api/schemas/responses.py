@@ -21,7 +21,7 @@ class TrainingTypeListResponse(ApiModel):
 
 
 class ExerciseMediaResponse(ApiModel):
-    file_path: str
+    url: str
 
 
 class ExerciseTypeResponse(ApiModel):
