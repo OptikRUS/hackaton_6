@@ -68,6 +68,23 @@ class TrainingUpdatingResponse(TrainingCreationResponse):
     id: int
 
 
+class TrainingTemplateExerciseResponse(ApiModel):
+    id: int
+    name: str | None
+    muscle: str | None
+    additional_muscle: str | None
+    exercise_type: str | None
+    equipment: str | None
+    difficulty: str | None
+    distance: float | None
+    count: int | None
+    frequency: int | None
+    weight: float | None
+    height: float | None
+    duration: float | None
+    length: float | None
+
+
 class TrainingExerciseResponse(ApiModel):
     id: int
     name: str | None
@@ -106,7 +123,7 @@ class TrainingListResponse(ApiModel):
 class TrainingTemplateResponse(ApiModel):
     title: str | None = ""
     description: str | None = ""
-    exercises: list[TrainingExerciseResponse]
+    exercises: list[TrainingTemplateExerciseResponse]
 
 
 class TrainingTemplateListResponse(ApiModel):
