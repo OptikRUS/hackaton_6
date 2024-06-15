@@ -1,6 +1,6 @@
 from src.api.schemas.base_schemas import ApiModel
 
 
-class SendMessageRequest(ApiModel):
-    message: str
+class ChatHistoryRequest(ApiModel):
+    sender_id: int
     receiver_id: int

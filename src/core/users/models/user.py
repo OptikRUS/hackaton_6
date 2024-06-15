@@ -3,6 +3,7 @@ from tortoise.validators import MaxValueValidator, MinValueValidator
 
 from src.common.auth.constants import UserRoles
 from src.common.models.mixins import TimeBasedMixin
+from src.config.settings import settings
 from src.core.users.constants import GenderType
 
 
@@ -58,6 +59,10 @@ class User(models.Model, TimeBasedMixin):
         if self.patronymic:
             full_name += self.patronymic
         return full_name
+
+    @property
+    def url(self) -> str | None:
+        return f"{settings.APP.SERVER_URL}/media/{self.avatar_path}" if self.avatar_path else None
 
     class Meta:
         table = "users_user"

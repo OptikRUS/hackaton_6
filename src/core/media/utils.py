@@ -16,13 +16,13 @@ async def streaming_file(
 def generate_valid_file_path(
     content_type: str,
     file_name: str,
-    folder_name: str | int,
+    folder_path: str | int,
     new_file_name: str | None = None,
 ) -> str:
     if not new_file_name:
         new_file_name = hashlib.sha256(
             f"{datetime.datetime.now()}_{file_name}".encode()
         ).hexdigest()
-    file_path = f"{folder_name}/{new_file_name}.{content_type.split("/")[1]}"
+    file_path = f"{folder_path}/{new_file_name}.{content_type.split("/")[1]}"
 
     return file_path

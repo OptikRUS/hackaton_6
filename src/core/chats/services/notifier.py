@@ -9,7 +9,7 @@ class NotifyManager:
         self.message_model = message_model
         self.connections: dict[int, WebSocket] = {}
 
-    async def connect(self, sender_id: int, websocket: WebSocket):
+    async def connect(self, sender_id: int, websocket: WebSocket) -> None:
         await websocket.accept()
         # TODO: если будет желание, то можно подключить Redis
         self.connections[sender_id] = websocket
@@ -23,11 +23,18 @@ class NotifyManager:
             sender_id=new_parsed_message.sender_id,
             receiver_id=new_parsed_message.receiver_id,
             message_text=new_parsed_message.message,
+            file_path=new_parsed_message.file_path
         )
 
-    async def _save_message(self, sender_id: int, receiver_id: int, message_text: str) -> Message:
+    async def _save_message(
+        self,
+        sender_id: int,
+        receiver_id: int,
+        message_text: str,
+        file_path: str | None = None
+    ) -> Message:
         return await self.message_model.create(
-            sender_id=sender_id, receiver_id=receiver_id, content=message_text
+            sender_id=sender_id, receiver_id=receiver_id, content=message_text, file_path=file_path
         )
 
     async def send_notifications(self) -> None:
@@ -41,7 +48,8 @@ class NotifyManager:
             message.received = True
             await message.save()
 
-    async def _send_message(self, message: str, connection: WebSocket) -> None:
+    @staticmethod
+    async def _send_message(message: str, connection: WebSocket) -> None:
         await connection.send_text(message)
 
     def disconnect(self, sender_id: int) -> None:

@@ -10,6 +10,7 @@ class AppSettings(BaseSettings):
     ADDRESS: str = "0.0.0.0"  # noqa: S104
     PORT: int = 8080
     OPENAPI_PREFIX: str = ""
+    SERVER_URL: str = "http://176.123.166.61:8000"
 
     model_config = SettingsConfigDict(env_prefix="APP_", env_file=".env", extra="ignore")
 
