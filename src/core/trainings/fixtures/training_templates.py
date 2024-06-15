@@ -8,14 +8,14 @@ make_mock = Faker("ru_RU")
 
 
 async def fill_training_templates(count: int = 50) -> None:
-    # await TrainingTemplate.all().delete()
+    await TrainingTemplate.all().delete()
     exercises = await Exercise.all()
     training_templates = [
         {
             "title": f"Шаблон тренировки № {i}",
             "description": f"Описание для тренировки № {i}",
         }
-        for i in range(count)
+        for i in range(1, count)
     ]
     for training_type in training_templates:
         exercises_for_training_template = [choice(exercises) for _ in range(3)]
