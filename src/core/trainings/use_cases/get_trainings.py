@@ -13,6 +13,6 @@ class TrainingByRoleUseCase:
 
     async def get_client_trainings(self, client_id: int) -> dict:
         trainings = await self.training_model.filter(client_id=client_id).prefetch_related(
-            "exercises__exercise__photos", "training_type"
+            "training_type", "exercises__training_exercise_photos"
         )
         return {"trainings": trainings}
