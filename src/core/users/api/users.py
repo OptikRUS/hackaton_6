@@ -16,6 +16,7 @@ from src.core.users.schemas.user import LoginData, RegistrationData
 from src.core.users.use_cases.bind_trainer import BindTrainerUseCase
 from src.core.users.use_cases.get_user_media import GetUserMediaUseCase
 from src.core.users.use_cases.set_user_avatar import SetUserAvatarUseCase
+from src.core.users.use_cases.trainer_clients import TrainerClientsListUseCase
 from src.core.users.use_cases.unbind_trainer import UnbindTrainerUseCase
 from src.core.users.use_cases.user_authentication import UserAuthenticationUseCase
 from src.core.users.use_cases.user_by_id import UserByIdUseCase
@@ -47,7 +48,9 @@ async def get_me(
     return await use_case.get_user_by_id(user_id=user_data.id)
 
 
-@router.get("/trainers", response_model=responses.TrainerListResponse, status_code=status.HTTP_200_OK)
+@router.get(
+    "/trainers", response_model=responses.TrainerListResponse, status_code=status.HTTP_200_OK
+)
 async def get_trainers() -> typing.Any:
     use_case = UserListUseCase(user_model=User())
     role = UserRoles.TRAINER.value
@@ -59,6 +62,16 @@ async def get_clients() -> typing.Any:
     use_case = UserListUseCase(user_model=User())
     role = UserRoles.CLIENT.value
     return await use_case.get_users(role=role)
+
+
+@router.get(
+    "/trainer/clients", response_model=responses.ClientListResponse, status_code=status.HTTP_200_OK
+)
+async def get_trainer_clients(
+    user_data: typing.Annotated[UserTokenPayload, Depends(CheckAuthorization())]
+) -> typing.Any:
+    use_case = TrainerClientsListUseCase(user_model=User())
+    return await use_case.get_clients(trainer_id=user_data.id)
 
 
 @router.post(
@@ -87,7 +100,9 @@ async def unbind_trainer(
     return await use_case.unbind_trainer(client_id=user_data.id, trainer_id=payload.trainer_id)
 
 
-@router.get("/user_media", response_model=responses.UserMediaResponse, status_code=status.HTTP_200_OK)
+@router.get(
+    "/user_media", response_model=responses.UserMediaResponse, status_code=status.HTTP_200_OK
+)
 async def get_user_media(
     user_data: typing.Annotated[UserTokenPayload, Depends(CheckAuthorization())],
 ):
