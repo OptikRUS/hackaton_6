@@ -18,11 +18,9 @@ class CreateTrainingExerciseUseCase:
         exercise_photos = await self.exercise_photo_model.filter(
             exercise_id=training_exercise_data.pop("exercise_id")
         )
-        print()
         for exercise_photo in exercise_photos:
             await exercise_photo.update_from_dict({"training_exercise_id": training_exercise.id})
             await exercise_photo.save()
-        print()
         await training_exercise.fetch_related("training_exercise_photos")
         return training_exercise
 

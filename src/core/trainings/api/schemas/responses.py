@@ -114,6 +114,7 @@ class TrainingResponse(ApiModel):
     confirm_by_trainer: bool
     training_type: TrainingTypeResponse
     exercises: list[TrainingExerciseResponse]
+    ru_weekday_of_training: str | None
 
 
 class TrainingListResponse(ApiModel):
