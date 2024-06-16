@@ -24,12 +24,12 @@ class UserResponse(ApiModel):
 
 class TrainerResponse(ApiModel):
     id: int
-    surname: str
-    name: str
-    patronymic: str
-    gender: str
-    age: int
-    rate: float
+    surname: str | None
+    name: str | None
+    patronymic: str | None
+    gender: str | None
+    age: int | None
+    rate: float | None
     url: str | None
 
 

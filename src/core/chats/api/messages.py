@@ -1,15 +1,15 @@
-from typing import Any, Annotated
+from typing import Annotated, Any
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, status
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect, status
 
 from src.api.schemas.pagination import PaginationInput
 from src.common.auth.authorization import CheckAuthorization
 from src.common.auth.schemas import UserTokenPayload
+from src.core.chats.api.schemas import responses
 from src.core.chats.api.schemas.requests import ChatHistoryRequest
 from src.core.chats.models import Message
 from src.core.chats.services.notifier import NotifyManager
 from src.core.chats.use_cases.get_chat_history import ChatHistoryUseCase
-from src.core.chats.api.schemas import responses
 
 router = APIRouter(prefix="/chats", tags=["chats"])
 notify_manager = NotifyManager(message_model=Message())

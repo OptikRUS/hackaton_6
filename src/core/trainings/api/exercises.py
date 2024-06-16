@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, status
 from src.api.schemas.pagination import PaginationInput
 from src.core.trainings.api.schemas import requests, responses
 from src.core.trainings.api.schemas.requests import ExerciseTypeListRequest
-from src.core.trainings.models import Exercise, TrainingExercise, ExercisePhoto
+from src.core.trainings.models import Exercise, ExercisePhoto, TrainingExercise
 from src.core.trainings.use_cases.exercise_types import (
     GetExerciseTypeUseCase,
     UpdateExerciseTypeUseCase,
