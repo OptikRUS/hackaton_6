@@ -1,12 +1,10 @@
 from datetime import datetime
 
-from pydantic import Field
-
 from src.api.schemas.base_schemas import ApiModel
 
 
 class MessageResponse(ApiModel):
-    content: str | None = Field(alias="message")
+    content: str | None = None
     receiver_id: int
     sender_id: int
     url: str | None = None
