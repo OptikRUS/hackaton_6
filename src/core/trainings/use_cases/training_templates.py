@@ -6,5 +6,7 @@ class TrainingTemplatesUseCase:
         self.training_template_model = training_template_model
 
     async def get_training_templates(self) -> dict:
-        training_templates = await self.training_template_model.all().prefetch_related("exercises")
+        training_templates = await self.training_template_model.all().prefetch_related(
+            "exercises", "warm_up", "warm_down"
+        )
         return {"templates": training_templates}

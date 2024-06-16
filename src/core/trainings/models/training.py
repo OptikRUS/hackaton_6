@@ -37,6 +37,20 @@ class Training(models.Model):
         backward_key="training_id",
         forward_key="training_exercise_id",
     )
+    warm_up = fields.ManyToManyField(
+        "models.Exercise",
+        related_name="warm_up",
+        through="training_exercises_m2m_warm_up",
+        backward_key="training_id",
+        forward_key="exercise_id",
+    )
+    warm_down = fields.ManyToManyField(
+        "models.Exercise",
+        related_name="warm_down",
+        through="training_exercises_m2m_warm_down",
+        backward_key="training_id",
+        forward_key="exercise_id",
+    )
 
     @property
     def weekday_of_training(self) -> int:

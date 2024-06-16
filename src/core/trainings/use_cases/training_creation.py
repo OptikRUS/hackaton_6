@@ -5,7 +5,7 @@ from src.core.trainings.exceptions import (
     TrainingAlreadyExistsError,
     TrainingTypeNotFoundError,
 )
-from src.core.trainings.models import Training, TrainingType
+from src.core.trainings.models import Exercise, Training, TrainingType
 from src.core.trainings.schemas.training import TrainingCreation
 from src.core.users.models import User
 
@@ -28,6 +28,12 @@ class TrainingCreationUseCase:
         training_data = payload.model_dump()
         training_data["trainer_id"] = trainer_id
         new_training = await self._create_training(data=training_data)
+        warm_up_exercises = await Exercise.filter(name__icontains="вело").limit(3)
+        warm_down_exercises = await Exercise.filter(name__icontains="растяжка").limit(3)
+        await new_training.warm_up.add(*warm_up_exercises)
+        await new_training.warm_down.add(*warm_down_exercises)
+        await new_training.save()
+        await new_training.fetch_related("warm_up", "warm_down")
         return new_training
 
     async def _create_training(self, data: dict) -> Training:

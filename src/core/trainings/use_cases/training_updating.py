@@ -4,7 +4,7 @@ from src.core.trainings.exceptions import (
     IncorrectTrainingTimeError,
     TrainingNotFoundError,
 )
-from src.core.trainings.models import Training
+from src.core.trainings.models import Exercise, Training
 from src.core.trainings.schemas.training import TrainingUpdating
 from src.core.users.models import User
 
@@ -27,6 +27,10 @@ class TrainingUpdateUseCase:
         updating_data = payload.model_dump()
         updating_data["client_id"] = client_id
         updated_training = await training.update_from_dict(data=updating_data)
+        warm_up_exercises = await Exercise.filter(name__icontains="вело").limit(3)
+        warm_down_exercises = await Exercise.filter(name__icontains="растяжка").limit(3)
+        await updated_training.warm_up.add(*warm_up_exercises)
+        await updated_training.warm_down.add(*warm_down_exercises)
         await updated_training.save()
         return training
 

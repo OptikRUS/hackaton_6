@@ -32,6 +32,9 @@ class Exercise(models.Model):
     duration = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)
     length = fields.FloatField(validators=[MinValueValidator(min_value=0.0)], null=True)
 
+    def __repr__(self) -> str:
+        return self.name
+
     class Meta:
         table = "trainings_exercise"
 

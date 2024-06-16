@@ -106,15 +106,17 @@ class TrainingExerciseResponse(ApiModel):
 class TrainingResponse(ApiModel):
     id: int
     title: str
+    training_type: TrainingTypeResponse
     description: str | None = ""
     date_of_training: datetime.date
     start_time_of_training: datetime.time
     end_time_of_training: datetime.time
     appointed_by: str
     confirm_by_trainer: bool
-    training_type: TrainingTypeResponse
     ru_weekday_of_training: str | None
-    exercises: list[TrainingExerciseResponse]
+    warm_up: list[TrainingTemplateExerciseResponse]
+    exercises: list[TrainingTemplateExerciseResponse]
+    warm_down: list[TrainingTemplateExerciseResponse]
 
 
 class TrainingListResponse(ApiModel):
@@ -124,7 +126,9 @@ class TrainingListResponse(ApiModel):
 class TrainingTemplateResponse(ApiModel):
     title: str | None = ""
     description: str | None = ""
+    warm_up: list[TrainingTemplateExerciseResponse]
     exercises: list[TrainingTemplateExerciseResponse]
+    warm_down: list[TrainingTemplateExerciseResponse]
 
 
 class TrainingTemplateListResponse(ApiModel):
