@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from botocore.client import BaseClient
-from fastapi import APIRouter, Depends, File, UploadFile, status, Body
+from fastapi import APIRouter, Body, Depends, File, UploadFile, status
 from starlette.responses import StreamingResponse
 
 from src.common.auth.authorization import CheckAuthorization
