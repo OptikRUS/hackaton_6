@@ -32,6 +32,7 @@ class TrainerResponse(ApiModel):
     age: int | None
     rate: float | None
     url: str | None
+    avatar_path: str | None
 
 
 class TrainerListResponse(ApiModel):
