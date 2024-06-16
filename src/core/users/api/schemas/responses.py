@@ -27,6 +27,7 @@ class TrainerResponse(ApiModel):
     surname: str | None
     name: str | None
     patronymic: str | None
+    email: str | None
     gender: str | None
     age: int | None
     rate: float | None
